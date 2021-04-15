@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../data/DUMMY_DATA.dart';
-import '../models/product.dart';
+import 'product.dart';
 
 //Nessa classe vai acontecer o encapsulamento dos produtos e por ela ser usada na aplicação
 //ChangeNotifier notifica quando uma mudança ocorre em um produto,se ele e deletado,modificado ou adicionado
