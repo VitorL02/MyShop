@@ -5,14 +5,23 @@ import 'package:provider/provider.dart';
 import './views/productsOverViewScreen.dart';
 import './routes/routes.dart';
 import './providers/products.dart';
+import './providers/cart.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => Products(),
+    //Criação de um multiProvider a aplicação precisa gerenciar os estados do carrinho e dos produtos quando modificados com um favorito
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => new Products(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => new Cart(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Minha Loja / compras',
         theme: ThemeData(
