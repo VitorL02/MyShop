@@ -18,10 +18,15 @@ class CartItem {
 }
 
 class Cart with ChangeNotifier {
-  Map<String, CartItem> _items;
+  Map<String, CartItem> _items = {};
 
   Map<String, CartItem> get item {
     return {..._items};
+  }
+
+//Getter pra receber a quantidade de itens sem ter que clonar toda vez  os itens com o {..._items}
+  int get itemCount {
+    return _items.length;
   }
 
   void addItem(Product product) {
