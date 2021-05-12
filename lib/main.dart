@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop/providers/orders.dart';
 import 'package:shop/views/productDetailScreen.dart';
 import 'package:provider/provider.dart';
 
@@ -22,12 +23,15 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => new Cart(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => new Orders(),
+        ),
       ],
       child: MaterialApp(
         title: 'Minha Loja / compras',
         theme: ThemeData(
           primarySwatch: Colors.purple,
-          accentColor: Colors.deepOrange,
+          accentColor: Colors.black54,
           fontFamily: 'Lato',
         ),
         home: ProductsOverViewScreen(),
