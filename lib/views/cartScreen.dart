@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../widgets/cartItemWidget.dart';
 import '../providers/cart.dart';
+import '../providers/orders.dart';
 
 class CartScreen extends StatelessWidget {
   @override
@@ -37,7 +38,13 @@ class CartScreen extends StatelessWidget {
                   ),
                   Spacer(),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      //Recebe a "ordem de compra"
+                      Provider.of<Orders>(context, listen: false)
+                          .addOrder(cart);
+                      //Limpa o carrinho quando o pedido e feito
+                      cart.clear();
+                    },
                     child: Text('COMPRAR'),
                   )
                 ],
