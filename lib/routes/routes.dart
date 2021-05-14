@@ -1,6 +1,6 @@
 class AppRoutes {
-  // ignore: non_constant_identifier_names
-  static final PRODUCTDETAIL = '/product-detail';
-  // ignore: non_constant_identifier_names
-  static final CART = '/cart';
+  static const HOME = '/';
+  static const PRODUCTDETAIL = '/product-detail';
+  static const CART = '/cart';
+  static const ORDERS = '/orders';
 }
