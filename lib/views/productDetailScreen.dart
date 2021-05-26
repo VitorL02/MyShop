@@ -40,7 +40,7 @@ class ProductDetailScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.deepPurple[400],
                   boxShadow: [
-                    BoxShadow(offset: Offset(0, 10), color: Colors.black)
+                    BoxShadow(offset: Offset(1, 5), color: Colors.black)
                   ],
                 ),
                 child: Center(
