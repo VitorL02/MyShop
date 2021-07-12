@@ -9,6 +9,29 @@ class CartItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     //Dissmissible adiciona uma rolagem a lista
     return Dismissible(
+      confirmDismiss: (_) {
+        return showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+              title: Text('Você tem certeza ?'),
+              content: Text('Que deseja excluir o item do carrinho'),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    //Passa  um valor pro future, o false faz o future  excluir o item
+                    Navigator.of(ctx).pop(false);
+                  },
+                  child: Text('Não'),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop(true);
+                  },
+                  child: Text('Sim'),
+                ),
+              ]),
+        );
+      },
       //remove o item "arrastado" pelo user
       onDismissed: (_) {
         Provider.of<Cart>(context, listen: false)
