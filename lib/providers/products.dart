@@ -15,6 +15,10 @@ class Products with ChangeNotifier {
     return items.where((prod) => prod.isFavorite).toList();
   }
 
+  int get itemsCount {
+    return _items.length;
+  }
+
 // List<Product> get items => _items; = Referenciar a lista dessa maneira faz com que permita ter acesso direto a ela
 // Referenciar [..._items] = cria uma copia de todos os items e fornece a aplicação
 
