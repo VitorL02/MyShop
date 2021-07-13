@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/widgets/productItem.dart';
 import '../widgets/appDrawer.dart';
 import '../providers/products.dart';
 
@@ -8,7 +9,8 @@ class ProductsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final products = Provider.of<Products>(context);
+    final productsData = Provider.of<Products>(context);
+    final products = productsData.items;
     return Scaffold(
       appBar: AppBar(
         title: Text('Gerenciamento de Produtos'),
@@ -23,8 +25,14 @@ class ProductsScreen extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.all(8),
         child: ListView.builder(
-            itemCount: products.itemsCount,
-            itemBuilder: (ctx, i) => Text('Teste')),
+          itemCount: productsData.itemsCount,
+          itemBuilder: (ctx, i) => Column(
+            children: [
+              ProductItem(products[i]),
+              Divider(),
+            ],
+          ),
+        ),
       ),
     );
   }
