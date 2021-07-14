@@ -10,6 +10,16 @@ class ProductForm extends StatefulWidget {
 class _ProductFormState extends State<ProductForm> {
   //Gerencia qual formulario estara em foco
   final _priceFocusNode = FocusNode();
+  final _descriptionFocusNode = FocusNode();
+
+//Dispose libera o uso de memoria
+  @override
+  void dispose() {
+    super.dispose();
+    _priceFocusNode.dispose();
+    _descriptionFocusNode.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,15 +41,25 @@ class _ProductFormState extends State<ProductForm> {
               },
             ),
             TextFormField(
-                decoration: InputDecoration(labelText: 'Preço'),
-                textInputAction: TextInputAction.next,
-                initialValue: 'R\$ ',
-                //Utiliza da variavel de foco pra quando o usuario clicar em next o campo ser focado
-                focusNode: _priceFocusNode,
-                //Faz o teclado so mostrar numeros,que no caso e o campo de preço
-                keyboardType: TextInputType.numberWithOptions(
-                  decimal: true,
-                )),
+              decoration: InputDecoration(labelText: 'Preço'),
+              textInputAction: TextInputAction.next,
+              initialValue: 'R\$ ',
+              //Utiliza da variavel de foco pra quando o usuario clicar em next o campo ser focado
+              focusNode: _priceFocusNode,
+              //Faz o teclado so mostrar numeros,que no caso e o campo de preço
+              keyboardType: TextInputType.numberWithOptions(
+                decimal: true,
+              ),
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Descrição'),
+              maxLines: 3,
+              focusNode: _descriptionFocusNode,
+              keyboardType: TextInputType.multiline,
+              onFieldSubmitted: (_) {
+                FocusScope.of(context).requestFocus(_descriptionFocusNode);
+              },
+            ),
           ],
         )),
       ),
