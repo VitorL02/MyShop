@@ -16,6 +16,7 @@ class CartItemWidget extends StatelessWidget {
               title: Text('Você tem certeza ?'),
               content: Text('Que deseja excluir o item do carrinho'),
               actions: <Widget>[
+                // ignore: deprecated_member_use
                 FlatButton(
                   onPressed: () {
                     //Passa  um valor pro future, o false faz o future  excluir o item
@@ -23,6 +24,7 @@ class CartItemWidget extends StatelessWidget {
                   },
                   child: Text('Não'),
                 ),
+                // ignore: deprecated_member_use
                 FlatButton(
                   onPressed: () {
                     Navigator.of(ctx).pop(true);
