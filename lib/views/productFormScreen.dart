@@ -24,7 +24,22 @@ class _ProductFormState extends State<ProductForm> {
   final _form = GlobalKey<FormState>();
 
   void _updateImage() {
-    setState(() {});
+    if (isValidImageUrl(_imageUrlController.text)) {
+      setState(() {});
+    }
+  }
+
+//Validação da Url
+  bool isValidImageUrl(String url) {
+    bool startsWithHttp = url.toLowerCase().startsWith('http://');
+    bool startsWithHttps = url.toLowerCase().startsWith('https://');
+    bool endsWithPng = url.toLowerCase().endsWith('.png');
+    bool endsWithJpg = url.toLowerCase().endsWith('.jpg');
+    bool endsWithJpeg = url.toLowerCase().endsWith('.jpeg');
+
+    //Caso alguma das condições forem verdadeiras das duas diferentes validações a url e valida
+    return (startsWithHttps || startsWithHttp) &&
+        (endsWithJpeg || endsWithJpg || endsWithPng);
   }
 
 //Dispose libera o uso de memoria
@@ -39,6 +54,14 @@ class _ProductFormState extends State<ProductForm> {
 
 //Metodo para salvar
   void _saveForm() {
+    //Valida o Formulario
+    var isValid = _form.currentState.validate();
+    //So salva as informações caso todos os dados sejam validos
+    if (!isValid) {
+      return;
+    }
+
+    //Salva o formulario
     _form.currentState.save();
 //Cria um produto novo recebendo os dados do usuario
     final newProduct = Product(
@@ -91,6 +114,18 @@ class _ProductFormState extends State<ProductForm> {
                     FocusScope.of(context).requestFocus(_priceFocusNode);
                   },
                   onSaved: (value) => _formData['title'] = value,
+                  validator: (value) {
+                    //Se o valor digitado pelo usuario for vazio ou espaços em branco,isso e retornado
+                    if (value.trim().isEmpty) {
+                      return 'Informe um titulo válido!';
+                    }
+                    //Se o valor digitado pelo usuario for menor que 3 ou espaços em branco,isso e retornado
+                    if (value.trim().length < 3) {
+                      return 'Informe um titulo com no mínimo 3 letras!';
+                    }
+
+                    return null;
+                  },
                 ),
                 TextFormField(
                   decoration: InputDecoration(labelText: 'Preço'),
@@ -104,29 +139,59 @@ class _ProductFormState extends State<ProductForm> {
                     decimal: true,
                   ),
                   onSaved: (value) => _formData['price'] = double.parse(value),
+                  validator: (value) {
+                    bool isEmpty = value.trim().isEmpty;
+                    var newPrice = double.tryParse(value);
+                    bool isInvalid = newPrice == null || newPrice <= 0;
+
+                    if (isEmpty || isInvalid) {
+                      return 'Informe um Preço Valido!';
+                    }
+                    return null;
+                  },
                 ),
                 TextFormField(
-                    decoration: InputDecoration(labelText: 'Descrição'),
-                    maxLines: 3,
-                    focusNode: _descriptionFocusNode,
-                    keyboardType: TextInputType.multiline,
-                    onSaved: (value) => _formData['description'] = value),
+                  decoration: InputDecoration(labelText: 'Descrição'),
+                  maxLines: 3,
+                  focusNode: _descriptionFocusNode,
+                  keyboardType: TextInputType.multiline,
+                  onSaved: (value) => _formData['description'] = value,
+                  validator: (value) {
+                    if (value.trim().isEmpty) {
+                      return 'Informe uma descrição válido!';
+                    }
+
+                    if (value.trim().length < 4) {
+                      return 'Informe um descrição com no mínimo 4 letras!';
+                    }
+
+                    return null;
+                  },
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     Expanded(
                       child: TextFormField(
-                          decoration:
-                              InputDecoration(labelText: 'Url Da Imagem'),
-                          keyboardType: TextInputType.url,
-                          focusNode: _imageUrlFocusNode,
-                          controller: _imageUrlController,
-                          //Finaliza o formulario
-                          onFieldSubmitted: (_) {
-                            _saveForm();
-                          },
-                          textInputAction: TextInputAction.done,
-                          onSaved: (value) => _formData['imageUrl'] = value),
+                        decoration: InputDecoration(labelText: 'Url Da Imagem'),
+                        keyboardType: TextInputType.url,
+                        focusNode: _imageUrlFocusNode,
+                        controller: _imageUrlController,
+                        //Finaliza o formulario
+                        onFieldSubmitted: (_) {
+                          _saveForm();
+                        },
+                        textInputAction: TextInputAction.done,
+                        onSaved: (value) => _formData['imageUrl'] = value,
+                        validator: (value) {
+                          bool urlVazia = value.trim().isEmpty;
+                          bool urlInvalida = !isValidImageUrl(value);
+                          if (urlVazia || urlInvalida) {
+                            return 'Informe uma url valida!';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
 
                     //Container onde a imagem sera exibida
